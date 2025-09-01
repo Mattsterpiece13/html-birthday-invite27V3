@@ -3,37 +3,163 @@
 
     <head>
         <meta charset="UTF-8">
-        <title>Invitatation!</title>
-    </head>
+        <title>Birthday Invitation</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="join us to celebrate on September 13th! Tap Andrea's beautiful picture for details, what to bring, and directions.">
+    
     <style>
-    body {
-      background-color: rgba(233, 53, 218, 0.267); /* sets the page background */
-    }
+        .confetti { position: relative; }
+        .confetti::after {
+            content: "✨🎉🎊🎂🥳🎈✨🎉🎊";
+            position: absolute; inset: -10px auto auto 50%;
+            transform: translateX(-50%);
+            animation: pop 2s ease-out .3s 1 forwards;
+            font-size: 3.5rem;
+            opacity: 0; pointer-events: none;
+            white-space: nowrap;
+        }
+        @keyframes pop {
+            0% { transform: translate(-50%, 10px) scale(.8); opacity: 0; }
+            20% { transform: translate(-50%, -6px) scale(1); opacity: 1; }
+            100% { transform: translate(-50%, -18px) scale(1); opacity: 0; }
+        }
+        :root{
+            --bg:#fde7fb; --card:#fff; --text:#1a1a1a; --muted:#555;
+            --accent:goldenrod; --radius:20px; --shadow:0 10px 30px rgba(0,0,0,.08);
+        }
+        html,body{margin:0;padding:0;}
+        body{
+            min-height:100svh;
+            background: radial-gradient(1200px 800px at 20% 10%, #ffe5ff 0%, var(--bg) 60%, #fbeeff 100%);
+            font-family:system-ui,-apple-system, segoe UI, Roboto, arial, sans-serif;
+            color:var(--text); line-height:1.5;
+            display:grid; place-items:center; padding:2rem;
+        }
+        .wrap { width:min(960px,100%); margin:0 auto; }
+        .card { background:var(--card); border-radius: 10px; box-shadow:var(--shadow);
+                padding:clamp(1.25rem, 2vw + 1rem, 2rem); }
+
+        .page-header { text-align:center; margin-bottom:0 auto; }
+        .subtitle { color: var(--muted); margin:0 0 .75rem; }
+        .hero { display:block; text-align:center; margin:1rem auto 1.25rem; }
+        .hero img {
+            width:min(100%,520px);
+            height:auto;
+            display:block;
+            margin-inline:auto;
+            border:10px solid var(--accent);
+            border-radius:var(--radius);
+        }
+        .cta-row {
+            display: flex;
+            gap: .75rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: .75rem 0 1.25rem;
+        }
+        .btn {
+            display: inline-block;
+            padding: .8rem 1rem;
+            border-radius: 999px;
+            border:2px solid var(--accent);
+            background: #fff;
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all .25s ease;
+            box-shadow: 0 3px 0 rgba(0,0,0,0.5);
+        }
+        .btn:hover { 
+            background: var(--accent);
+            color: #fff;
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 6px 12px rgba(0,0,0,.15);
+        }
+        
+        .section { margin-top: 1.25rem; }
+        h2 { font-size: clamp(1.2rem, 1rem + .8vw, 1.6rem); margin: 0 0 .5rem; }
+        ul { margin: .25rem 0 0; padding-left: 1.2rem; }
+        li + li { margin-top: .25rem; }
+
+        .map {
+            display: grid;
+            gap: .5rem;
+            justify-items: start;
+            background: #fff8e1;
+            border: 1px solid #f3de9e;
+            padding: .9rem;
+            border-radius: .75rem;
+        }
+
+        @media (max-width: 480px) {
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+            h1 {
+                font-size: 1.6rem;
+            }
+            h2 {
+                font-size: 1.2rem;
+            }
+            .hero img {
+                border-width: 6px;
+            }
+
+        }
+        .footer {
+            text-align: center;
+            color: var(--muted);
+            margin-top: 1.5rem;
+        }
+            
   </style>
+    </head>
+
     <body>
-        <div style="text-align: center;"> 
-            <h1>It's my Wife's Birthday!</h1>
-            <h2>A celebration on September the 4th!</h2>
-            <h4>Click on her beatiful picture for more details</h4>
-            <a href="./party-details.html"> <img src="./images/Screenshot 2025-08-29 135040.png" 
+        <div class="wrap">
+        <main class="card confetti" role="main">
+            <header class="page-header">
+         
+                <h1>It's my Wife's Birthday! &#127881</h1>
+                <p class="subtitle">Join us to celebrate on <strong>September 27th!</strong></p>
+            </header>
+        <div class="cta-row">
+            <a class="btn" href="./party-details.html">View Details & RSVP -> </a>
+            <a class="btn" href="https://www.google.com/maps?q=1969+NB-112,+Upper+Coverdale,+NB+E1J+1Y9">
+                Open in Google Maps
+            </a>         
+        </div>    
+            <a class="hero" href="./party-details.html" aria-label="Open party details and RSVP"> 
+                <img 
+                src="./images/Screenshot 2025-08-29 135040.png" 
                 height="500"
-                style="border: 10px solid goldenrod; border-radius: 20px;" > </a>
-        </div>
+                alt="My favourite portrait of the birthday girl" > 
+            </a>
+    <section class="section">
         <h3>What to bring</h3>
             <ul>
-                <li>A gift for my beloved (She loves Gifts!)</li>
-                <li>The prettiest flowers you can find (Her Favourite are stargazer lillies, but a pretty flower to rep yourself is even better)</li>
-                <li>Bringing <b>YOURSELF</b> is more important than the above two items to her</li>
+                <li>The prettiest flowers you can find. Her favorite are <em>stargazer lilies</em> &#127800</li>
+                <li><b>Optional</b> A gift she'll love (complete guide on this site)! </li>
+                <li>Yourself, your smile and your party energy!</li>
             </ul>
-        <h3>This is where you need to go</h3>
-            <a href="https://www.google.ca/maps/place/1969+NB-112,+Upper+Coverdale,+NB+E1J+1Y9/@46.0456175,-64.9668065,196m/data=!3m1!1e3!4m6!3m5!1s0x4ca0c8609d162bb5:0xa3ce6bb18c79a0c3!8m2!3d46.0453955!4d-64.9665548!16s%2Fg%2F11rdcmjvkh?entry=ttu&g_ep=EgoyMDI1MDgyNS4wIKXMDSoASAFQAw%3D%3D">Click Me for Andreas Wonderland Location!</a>    
-            
+    </section>    
 
-
-
+    <section class="section map" aria-label="Location">
+            <h2>Where & When</h2>
+            <div>1969 NB-112, Upper Coverdale, NB E1J 1Z1</div>
+            <p>5:30PM-11PM</p>
+            <a class="btn" href="https://www.google.com/maps?q=1969+NB-112,+Upper+Coverdale,+NB+E1J+1Y9" target="_blank" rel="noopener">Get Directions</a>
+    </section>
+        </main>
+        </div>
 
     </body>
 
+    <footer class="footer">
+        <p><a href="./Gift-Selection.html" class="btn">Gift Ideas </a> </p>
+
+    </footer>
 
 
 </html>
