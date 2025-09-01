@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>RSVP for Andrea's Celebration</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="RSVP for Andrea's birthday—let us know you’re coming and share any details we should know." />
+
+  <style>
+    :root{
+      --bg:#fde7fb; --card:#fff; --text:#1a1a1a; --muted:#555;
+      --accent:goldenrod; --radius:20px; --shadow:0 10px 30px rgba(0,0,0,.08);
+    }
+    *,*::before,*::after{ box-sizing:border-box; }
+    html,body{ margin:0; padding:0; }
+    body{
+      min-height:100svh;
+      background: radial-gradient(1200px 800px at 20% 10%, #ffe5ff 0%, var(--bg) 60%, #fbeeff 100%);
+      font-family:system-ui,-apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text); line-height:1.5;
+      display:grid; place-items:center; padding:2rem;
+    }
+    .wrap{ width:min(960px,100%); margin:0 auto; }
+    .card{
+      position:relative; background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+      padding:clamp(1.25rem, 2vw + 1rem, 2rem);
+    }
+    .card::before{ content:"🌸 🌸"; position:absolute; top:-8px; right:10px; font-size:2.2rem; opacity:.12; pointer-events:none; transform:rotate(-10deg); }
+
+    .page-header{ text-align:center; margin-bottom:1rem; }
+    .page-header h1{ color:var(--accent); margin:.25rem 0 .25rem; }
+    .subtitle{ color:var(--accent); margin:0 0 1rem; }
+
+    /* Buttons (same as other pages) */
+    .btn{
+      display:inline-block; padding:.85rem 1.1rem; border-radius:999px;
+      border:2px solid var(--accent); background:#fff; color:var(--text);
+      text-decoration:none; font-weight:600; transition:all .25s ease; box-shadow:0 3px 0 rgba(0,0,0,.05);
+      cursor:pointer;
+    }
+    .btn:hover{ background:var(--accent); color:#fff; transform:translateY(-2px) scale(1.03); box-shadow:0 6px 12px rgba(0,0,0,.15); }
+    .btn:active{ transform:translateY(1px) scale(.98); box-shadow:0 2px 4px rgba(0,0,0,.1); }
+    .btn:focus-visible{ outline:3px solid #0000; box-shadow:0 0 0 3px rgba(218,165,32,.45); }
+
+    /* Form */
+    form{ margin-top:.5rem; }
+    .grid{
+      display:grid; gap:1rem;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width:720px){
+      .grid{ grid-template-columns: 1fr 1fr; }
+      .span-2{ grid-column: 1 / -1; }
+    }
+    label{ display:block; font-weight:600; color:var(--accent); margin-bottom:.35rem; }
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select,
+    textarea{
+      width:100%; padding:.75rem .85rem; border-radius:12px; border:1.5px solid #f1e2a8; background:#fff;
+      font:inherit; color:var(--text);
+    }
+    textarea{ min-height:110px; resize:vertical; }
+    .hint{ color:var(--muted); font-size:.95rem; margin-top:.25rem; }
+    .section{ margin-top:1.25rem; }
+    .footer{ text-align:center; color:var(--muted); margin-top:1.5rem; }
+    .footer-nav{ display:flex; justify-content:center; gap:.75rem; flex-wrap:wrap; margin-top:.5rem; }
+
+    /* Tiny anti-spam honey pot */
+    .hp{ position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <main class="card" role="main">
+      <header class="page-header">
+        <h1>RSVP</h1>
+        <p class="subtitle">We're excited to celebrate—tell us a few details below</p>
+      </header>
+
+      <!-- Replace action with your Formspree endpoint -->
+      <form action="https://formspree.io/f/mpwjlejk" method="POST">
+        <!-- Redirect after submit -->
+        <input type="hidden" name="_redirect" value="./rsvp-thanks.html">
+        <!-- Identify the form in your inbox -->
+        <input type="hidden" name="formName" value="Andrea Birthday RSVP">
+
+        <div class="grid">
+          <!-- Name -->
+          <div>
+            <label for="name">Your full name *</label>
+            <input id="name" name="name" type="text" autocomplete="name" required>
+          </div>
+
+          <!-- RSVP -->
+          <div>
+            <label for="rsvp">RSVP *</label>
+            <select id="rsvp" name="rsvp" required>
+              <option value="" disabled selected>Select one</option>
+              <option>Yes, I'll be there!</option>
+              <option>Sorry, can't make it</option>
+              <option>Maybe / not sure yet</option>
+            </select>
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label for="email">Email *</label>
+            <input id="email" name="email" type="email" autocomplete="email" required>
+            <p class="hint">We'll use this for any updates (weather, timing, etc.).</p>
+          </div>
+
+          <!-- Phone -->
+          <div>
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel">
+            <p class="hint">Optional, but helpful for day-of coordination.</p>
+          </div>
+
+          <!-- Message to Andrea -->
+          <div class="span-2">
+            <label for="message">Leave a message for Andrea</label>
+            <textarea id="message" name="message" placeholder="Share a note, memory, or birthday wish"></textarea>
+          </div>
+
+          <!-- Dietary -->
+          <div class="span-2">
+            <label for="dietary">Dietary restrictions or preferences</label>
+            <textarea id="dietary" name="dietary" placeholder="Vegetarian, gluten-free, nut allergy, etc."></textarea>
+          </div>
+
+          <!-- Song request (free text) -->
+          <div class="span-2">
+            <label for="song">Song request</label>
+            <input id="song" name="song" type="text" placeholder="Title — Artist">
+          </div>
+
+          <!-- Preferred activities (free text) -->
+          <div class="span-2">
+            <label for="activities">Preferred activities</label>
+            <input id="activities" name="activities" type="text" placeholder="Volleyball, yard games, bonfire, etc.">
+          </div>
+
+          <!-- Carpool -->
+          <div>
+            <label for="carpool">Carpool</label>
+            <select id="carpool" name="carpool">
+              <option value="" selected>No preference</option>
+              <option>Offering a ride</option>
+              <option>Need a ride</option>
+              <option>Not sure yet</option>
+            </select>
+          </div>
+
+          <!-- Carpool details -->
+          <div>
+            <label for="carpool_details">Carpool details</label>
+            <input id="carpool_details" name="carpool_details" type="text" placeholder="Area, # seats available / pickup needs">
+          </div>
+
+          <!-- Honey pot (anti-spam) -->
+          <div class="hp">
+            <label for="website">Website</label>
+            <input id="website" type="text" name="website" tabindex="-1" autocomplete="off">
+          </div>
+
+          <!-- Submit -->
+          <div class="span-2" style="text-align:center; margin-top:.25rem;">
+            <button class="btn" type="submit">Send RSVP</button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Footer nav (consistent buttons) -->
+      <footer class="footer">
+        <div class="footer-nav">
+          <a href="./index.html" class="btn">&larr; Back Home</a>
+          <a href="./party-details.html" class="btn">Party Details</a>
+          <a href="./Gift-Selection.html" class="btn">Gift Ideas</a>
+        </div>
+      </footer>
+    </main>
+  </div>
+</body>
+</html>
