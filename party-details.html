@@ -1,81 +1,350 @@
 <!DOCTYPE html>
 <html lang ="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Party Details</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="event details, why flowers, BBQ & food,">
 
-    <head>
-        <meta charset="UTF-8">
-        <title>About Andrea</title>
-    </head>
     <style>
-    body {
-      background-color: rgba(233, 53, 218, 0.267); /* sets the page background */
-    }
-  </style>
-    <body>
-        <div style="text-align:center;">       
-            <h1>ANDREA CORMIER</h1>
-            <h2>Why Flowers?</h2>
+      :root{
+        --bg:#fde7fb; --card:#fff; --text:#1a1a1a; --muted:#555;
+        --accent:goldenrod; --radius:20px; --shadow:0 10px 30px rgba(0,0,0,.08);
+      }
+      html,body {margin:0;padding:0;}
+      body{
+        min-height:100svh;
+        background: radial-gradient(1200px 800px at 20% 10%, #ffe5ff 0%, var(--bg) 60%, #fbeeff 100%);
+        font-family:system-ui,-apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        color:var(--text); line-height:1.5;
+        display:grid; place-items:center; padding:2rem;
+      }
+      .wrap{width:min(960px,100%); margin:0 auto;}
+      .card{
+        position:relative;
+        background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+        padding:clamp(1.25rem, 2vw + 1rem, 2rem); overflow:hidden;
+      }
+      .card::before { content:"🌸 🌸"; position:absolute; top:-8px; right:10px; font-size:2.2rem; opacity:.12; pointer-events:none; transform:rotate(-10deg); }
+
+      .page-header{ text-align:center; margin-bottom:1rem; }
+      .page-header h1 { color: var(--accent); }             /* golden title */
+      .subtitle { color: var(--accent); margin: 0 0 .75rem; } /* golden subtitle */
+
+      .section{margin-top:1.25rem;}
+      .section + .section { border-top:1px dashed #f0d98e; padding-top:1rem; }
+
+      h2{font-size:clamp(1.2rem,1rem + .8vw,1.6rem); margin:0 0 .5rem;}
+      ul{margin:.25rem 0 0; padding-left:1.2rem;}
+      li + li{margin-top:.25rem;}
+
+      .cta-row{display:flex; gap:.75rem; justify-content:center; flex-wrap:wrap; margin:.75rem 0 1.25rem;}
+      .btn{
+        display:inline-block; padding:.8rem 1rem; border-radius:999px;
+        border:2px solid var(--accent); background:#fff; color:var(--text);
+        text-decoration:none; font-weight:600; transition:all .25s ease;
+        box-shadow:0 3px 0 rgba(0,0,0,.05);
+      }
+      .btn:hover{background:var(--accent); color:#fff; transform:translateY(-2px) scale(1.03); box-shadow:0 6px 12px rgba(0,0,0,.15);}
+      .btn:active{transform:translateY(1px) scale(.98); box-shadow:0 2px 4px rgba(0,0,0,.1);}
+      .btn:focus-visible{ outline:3px solid #0000; box-shadow:0 0 0 3px rgba(218,165,32,.45); }
+
+      .map{
+        display:grid; gap:.5rem; justify-items:start;
+        background:#fff8e1; border:1px solid #f3de9e; padding:.9rem; border-radius:.75rem;
+      }
+
+      .gallery{
+        display:grid; gap:.75rem; align-items:start;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      }
+      .gallery img{
+        width:100%; height:300px; display:block;
+        border:10px solid var(--accent); border-radius:var(--radius);
+      }
+      .gallery figcaption{ text-align:center; color:var(--muted); font-size:.95rem; margin-top:.25rem;}
+
+      .feature img{
+        width:100%; max-width:500px; height:475px; display:block; margin-inline:auto;
+        border:10px solid var(--accent); border-radius:var(--radius);
+      }
+
+      .button-layout {
+        display:grid; gap:1rem; justify-content:center;
+        margin-top:2rem;
+      }
+      .top-row {
+        display:grid; grid-template-columns:repeat(3,1fr);
+        gap:.75rem; max-width:720px;
+      }
+      .middle-row {
+        display:grid; grid-template-columns:repeat(3,1fr);
+        gap:.75rem; max-width:720px;
+      }
+      .rsvp-btn { grid-column:1 / span 3; }
+      .bottom-row {
+        display:grid; grid-template-columns:repeat(6,1fr);
+        gap:.75rem; max-width:720px;
+      }
+      .back-btn {
+        grid-column:1 / span 1.5;
+        justify-self:start;
+      }
+
+      /* --- Add-to-Calendar dropdown --- */
+      .add-to-cal { position: relative; display: inline-block; }
+      .cal-menu {
+        position: absolute; left: 0; top: calc(100% + .4rem);
+        display: grid; gap: .4rem; padding: .6rem;
+        background: #fff; border: 1px solid #f3de9e; border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(0,0,0,.08); min-width: 240px; z-index: 20;
+      }
+      .cal-menu[hidden] { display: none; }
+      .add-to-cal .btn { width: 100%; text-align: center; }
+
+      @media (max-width:480px) {
+        .btn { width:100%; text-align:center; }
+        h1 { font-size:1.6rem; }
+        h2 { font-size:1.2rem; }
+        .cal-menu { min-width: min(90vw, 320px); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * { animation:none !important; transition:none !important; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="wrap">
+      <main class="card" role="main">
+        <header class="page-header">
+          <h1>Party Details</h1>
+          <p class="subtitle">Everything you need to join the celebration</p>
+        </header>
         
-            <img src="./images/Grampie.png" alt="First image" 
-            height="400" 
-            width="500"
-            style="border: 10px solid goldenrod; border-radius: 20px;"> 
-            <img src="./images/Stargazers.png" alt="second image" 
-            height="400" 
-            width="500" 
-            style="border: 10px solid goldenrod; border-radius: 20px;">
-    
-            <p>
+        <section id="basics" class="section map" aria-label="Event Basics">
+          <h2>Event Basics</h2>
+          <ul>
+            <li><strong>Date:</strong> September 27th, 2025</li>
+            <li><strong>Time:</strong> 6:00 PM – 11:00 PM</li>
+            <li><strong>Location:</strong> 1969 NB-112, Upper Coverdale, NB E1J 1Y9</li>
+            <li><strong>Dress Code:</strong> Casual with a splash of fun &#127881;</li>
+            <li><strong>Parking:</strong> Plenty available</li>
+          </ul>
+          <div class="cta-row">
+            <a class="btn" href="https://www.google.com/maps?q=1969+NB-112,+Upper+Coverdale,+NB+E1J+1Y9" target="_blank" rel="noopener">Open in Google Maps</a>
+
+            <!-- Add-to-Calendar dropdown (replaces old single link) -->
+            <div class="add-to-cal">
+              <button class="btn atc-trigger" type="button" aria-expanded="false" aria-controls="calMenu">
+                Add to Calendar ▾
+              </button>
+              <div class="cal-menu" id="calMenu" hidden>
+                <a class="btn" id="gcal" target="_blank" rel="noopener">Google Calendar</a>
+                <a class="btn" id="outlookcom" target="_blank" rel="noopener">Outlook.com</a>
+                <a class="btn" id="yahoo" target="_blank" rel="noopener">Yahoo</a>
+                <a class="btn" id="ics" download="Andrea_Birthday.ics">Apple / Outlook (ICS)</a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="flowers" class="section">
+          <h2>Why Flowers?</h2>
+
+          <div class="gallery">
+            <figure>
+              <img src="./images/Grampie.png" width="500" height="400" loading="lazy"
+                   alt="Andrea on a swing with her Grampie pushing from behind">
+              <figcaption>Andrea & her Grampie</figcaption>
+            </figure>
+
+            <figure>
+              <img src="./images/Stargazers.png" width="500" height="400" loading="lazy"
+                   alt="Close-up of Grampie's stargazer lilies in full bloom">
+              <figcaption>Grampie's stargazer lilies</figcaption>
+            </figure>
+          </div>
+
+          <p>
             Stargazer lilies hold such a deep meaning for my wife because they are forever tied to the love and lessons she shared with her Grampy. 
             Some of her most cherished memories are of gardening side by side with him, watching those lilies bloom into something spectacular. 
             She still carries with her the pride and joy of accompanying him to competitions with the Westmorland horticultural society, where his prized stargazers took home more than one ribbon. 
             For her, these flowers are not just beautiful—they are living reminders of a bond that shaped her childhood, moments filled with warmth, 
             laughter, and love that still bring a smile to her face and a tear to her eye today.    
-            </p>    
-        </div>
+          </p>    
+        </section>
 
-        <div style="text-align: center;">
-            <h2>What kind of gift would Andrea like?</h2>
-        </div>
+        <section id="food" class="section">
+          <h2>Food & BBQ</h2>
+          <div class="feature" style="margin-bottom:.5rem;">
+            <img src="./images/grill.png" alt="BBQ grill with delicious food sizzling">
+          </div>
+          <p>Come hungry—we'll have a backyard BBQ and a little something for everyone:</p>
+          <ul>
+            <li>Grill favorites: burgers, sausages, veggie patties</li>
+            <li>Fresh sides: salads, chips & dips, fruit platter</li>
+            <li>Desserts: birthday cake &#127874; and sweet treats</li>
+            <li>Drinks: water, soda, and a cooler with options</li>
+            <li><strong>Veg options:</strong> veggie patties & salads—tell us what you like!</li>
+          </ul>
+          <p>Feel free to bring any food or beverages you would like too!</p>
+        </section>
+      
+        <section id="games" class="section">
+          <h2>Games & Bonfire</h2>
+          <div class="feature" style="margin-bottom:.5rem;">
+            <img src="./images/volleyball.png" alt="Cozy backyard bonfire with friends enjoying the evening">
+          </div>
+          <ul>
+            <li><strong>Volleyball:</strong> net will be up—teams welcome!</li>
+            <li><strong>Yard games:</strong> bring your favorites to share and play</li>
+            <li><strong>Bonfire:</strong> bring a cozy layer for late evening (weather permitting)</li>
+            <li><strong>Music:</strong> request songs—let's build the vibe &#127911;</li>
+          </ul>
+        </section>
 
-        <p>
-            I've placed a couple of list themes here for your selection:<br/>
-            Just select the list that best fits you!
-        <ul>
-            <li>
-                <a href="https://www.amazon.ca/hz/wishlist/ls/2DG9O8A1WQZC2?ref_=list_d_wl_lfu_nav_6"
-                target="_blank">
-            These gifts are about self care-let's spoil her!
-                </a>
-            </li>
-            <li>
-                <a href="https://www.amazon.ca/hz/wishlist/ls/2GCRMKCGX8H45?ref_=list_d_wl_lfu_nav_3"
-                target="_blank">
-                A present for her hobbies? Yes Please! 
-                </a>
-            </li>
-            <li>
-                <a href="https://www.amazon.ca/hz/wishlist/ls/CH6ZYOU2FXZR/ref=nav_wishlist_lists_2"
-                target="_blank">
-                Give the gift of fun! 
-                </a>
-            </li>
-            <li>
-                <a href="https://www.amazon.ca/hz/wishlist/ls/3PUPXKLYEY8DX?ref_=list_d_wl_lfu_nav_5"
-                target="_blank">
-                Gifts to make her daily life easier is a great idea! 
-                </a>
-            </li>
-        </ul>
+        <section id="gifts" class="section">
+          <h2>Gift Lists</h2>
+          <p>Choose a theme that fits your style—totally optional, your presence is what matters most.</p>
 
-        </p>
-    <hr>
-        <div style="text-align: center;">"
-       <a href="./Gift-Selection.html"> <B><h3>How to pick the BEST Gift</h3></B> </a>
+          <div class="button-layout">
+            <div class="row top-row">
+              <a href="https://www.amazon.ca/hz/wishlist/ls/2DG9O8A1WQZC2?ref_=list_d_wl_lfu_nav_6" target="_blank" rel="noopener" class="btn">Self Care</a>
+              <a href="https://www.amazon.ca/hz/wishlist/ls/2GCRMKCGX8H45?ref_=list_d_wl_lfu_nav_3" target="_blank" rel="noopener" class="btn">Hobbies</a>
+              <a href="https://www.amazon.ca/hz/wishlist/ls/3PUPXKLYEY8DX?ref_=list_d_wl_lfu_nav_5" target="_blank" rel="noopener" class="btn">Practical</a>
+            </div>
 
-        </div>
-    </body>
+            <div class="row middle-row">
+              <a href="./rsvp.html" class="btn rsvp-btn">RSVP</a>
+            </div>
 
+            <div class="row bottom-row">
+              <a href="./index.html" class="btn back-btn">&larr; Back Home</a>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
 
+    <!-- Add-to-Calendar script -->
+    <script>
+      // --- Event details: EDIT THESE if your date/time/location change ---
+      const evt = {
+        title: "Andrea's Birthday Party",
+        details: "Backyard BBQ, yard games, and a cozy bonfire. Dress casual with a splash of fun.",
+        location: "1969 NB-112, Upper Coverdale, NB E1J 1Y9",
+        start: "2025-09-13T18:00:00",   // local start (24h)
+        end:   "2025-09-13T23:00:00",   // local end
+        tz:    "America/Moncton"        // IANA timezone
+      };
 
+      // Helpers
+      const fmt = {
+        pad: n => String(n).padStart(2, "0"),
+        ymdHisLocal: iso => {
+          const d = new Date(iso);
+          const y = d.getFullYear();
+          const m = fmt.pad(d.getMonth()+1);
+          const day = fmt.pad(d.getDate());
+          const h = fmt.pad(d.getHours());
+          const min = fmt.pad(d.getMinutes());
+          const s = fmt.pad(d.getSeconds());
+          return `${y}${m}${day}T${h}${min}${s}`;
+        },
+        ymdHisUTC: iso => {
+          const d = new Date(iso);
+          return d.toISOString().replace(/[-:]/g,"").split(".")[0] + "Z";
+        },
+        durHHMM: (startISO, endISO) => {
+          const ms = new Date(endISO) - new Date(startISO);
+          const mins = Math.round(ms/60000);
+          const hh = fmt.pad(Math.floor(mins/60));
+          const mm = fmt.pad(mins%60);
+          return `${hh}${mm}`;
+        },
+        enc: s => encodeURIComponent(s)
+      };
 
+      // Build links
+      const startLocal = fmt.ymdHisLocal(evt.start);
+      const endLocal   = fmt.ymdHisLocal(evt.end);
+      const startUTC   = fmt.ymdHisUTC(evt.start);
+      const endUTC     = fmt.ymdHisUTC(evt.end);
+      const dur        = fmt.durHHMM(evt.start, evt.end);
+
+      // Google Calendar (respects ctz=)
+      const gcal =
+        `https://calendar.google.com/calendar/render?action=TEMPLATE` +
+        `&text=${fmt.enc(evt.title)}` +
+        `&dates=${startLocal}/${endLocal}` +
+        `&details=${fmt.enc(evt.details)}` +
+        `&location=${fmt.enc(evt.location)}` +
+        `&ctz=${fmt.enc(evt.tz)}`;
+
+      // Outlook.com (web)
+      const outlookcom =
+        `https://outlook.live.com/calendar/0/deeplink/compose?path=/calendar/action/compose&rru=addevent` +
+        `&subject=${fmt.enc(evt.title)}` +
+        `&body=${fmt.enc(evt.details)}` +
+        `&location=${fmt.enc(evt.location)}` +
+        `&startdt=${fmt.enc(new Date(evt.start).toISOString())}` +
+        `&enddt=${fmt.enc(new Date(evt.end).toISOString())}`;
+
+      // Yahoo (needs UTC start + duration)
+      const yahoo =
+        `https://calendar.yahoo.com/?v=60&view=d&type=20` +
+        `&title=${fmt.enc(evt.title)}` +
+        `&st=${startUTC}` +
+        `&dur=${dur}` +
+        `&desc=${fmt.enc(evt.details)}` +
+        `&in_loc=${fmt.enc(evt.location)}`;
+
+      // ICS content (Apple Calendar, Outlook desktop)
+      const ics =
+`BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//AndreaBirthday//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:andrea-bday-2025@invite
+DTSTAMP:${startUTC}
+DTSTART:${startUTC}
+DTEND:${endUTC}
+SUMMARY:${evt.title.replace(/\n/g," ")}
+DESCRIPTION:${evt.details.replace(/\n/g," ")}
+LOCATION:${evt.location.replace(/\n/g," ")}
+END:VEVENT
+END:VCALENDAR`;
+
+      // Inject links
+      const el = id => document.getElementById(id);
+      if (el("gcal"))       el("gcal").href = gcal;
+      if (el("outlookcom")) el("outlookcom").href = outlookcom;
+      if (el("yahoo"))      el("yahoo").href = yahoo;
+
+      // Create downloadable ICS on the fly
+      if (el("ics")) {
+        const icsBlob = new Blob([ics], {type: "text/calendar;charset=utf-8"});
+        el("ics").href = URL.createObjectURL(icsBlob);
+      }
+
+      // Simple dropdown toggle + outside-click close
+      const trigger = document.querySelector(".atc-trigger");
+      const menu = document.getElementById("calMenu");
+      if (trigger && menu) {
+        trigger.addEventListener("click", () => {
+          const open = !menu.hasAttribute("hidden");
+          if (open) { menu.setAttribute("hidden",""); trigger.setAttribute("aria-expanded","false"); }
+          else { menu.removeAttribute("hidden"); trigger.setAttribute("aria-expanded","true"); }
+        });
+        document.addEventListener("click", (e) => {
+          if (!menu.contains(e.target) && !trigger.contains(e.target)) {
+            menu.setAttribute("hidden",""); trigger.setAttribute("aria-expanded","false");
+          }
+        });
+      }
+    </script>
+  </body>
 </html>
